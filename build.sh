@@ -130,7 +130,7 @@ install_ipsw() {
 choose_xnu() {
     if [ -z "$MACOS_VERSION"]; then
         gum style --border normal --margin "1" --padding "1 2" --border-foreground 212 "Choose $(gum style --foreground 212 'macOS') version to build:"
-        MACOS_VERSION=$(gum choose "13.0" "13.1" "13.2")
+        MACOS_VERSION=$(gum choose "13.0" "13.1" "13.2" "13.3")
     fi
     case ${MACOS_VERSION} in
     '13.0')
