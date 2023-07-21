@@ -107,12 +107,12 @@ install_deps() {
         fi
         brew install jq gum xcodes bash
     fi
-    if compgen -G "/Applications/Xcode*.app" >/dev/null; then
+    if [ -z ${XCODE_VERSION+x} ] && compgen -G "/Applications/Xcode*.app" >/dev/null; then
         info "Xcode is already installed: $(xcode-select -p)"
     else
         running "Installing XCode"
         gum style --border normal --margin "1" --padding "1 2" --border-foreground 212 "Choose $(gum style --foreground 212 'XCode') to install:"
-        XCODE_VERSION=$(gum choose "13.4.1" "14.0.1" "14.1" "14.2" "14.3-beta")
+        XCODE_VERSION=$(gum choose "13.4.1" "14.0.1" "14.1" "14.2" "14.3.1")
         curl -o /tmp/Xcode_${XCODE_VERSION}.xip "https://storage.googleapis.com/xcodes-cache/Xcode_${XCODE_VERSION}.xip"
         xcodes install ${XCODE_VERSION} --experimental-unxip --color --select --path /tmp/Xcode_${XCODE_VERSION}.xip
         # xcodebuild -downloadAllPlatforms
@@ -152,6 +152,7 @@ choose_xnu() {
         RELEASE_URL='https://raw.githubusercontent.com/apple-oss-distributions/distribution-macOS/macos-133/release.json'
         KDK_NAME='Kernel Debug Kit 13.3 build 22E252'
         KDKROOT='/Library/Developer/KDKs/KDK_13.3_22E252.kdk'
+        XCODE_VERSION="14.3.1"
         ;;
     *)
         error "Invalid xnu version"
