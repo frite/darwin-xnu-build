@@ -213,6 +213,8 @@ patches() {
         XNU_MAJOR_VERSION=$(curl -s $RELEASE_URL | jq -r '.projects[] | select(.project=="xnu") | .tag' | cut -d'.' -f1)
         echo "Applying patches for ${XNU_MAJOR_VERSION}"
         git apply --directory='xnu' patches/${XNU_MAJOR_VERSION}/*.patch || true
+    else
+        info "Skipping patching XNU"
     fi
 }
 
