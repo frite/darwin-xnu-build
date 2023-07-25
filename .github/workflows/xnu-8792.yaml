@@ -1,4 +1,4 @@
-name: ARM XNU CodeQL
+name: ARM XNU 8792 CodeQL
 
 on:
   push:
