@@ -210,7 +210,9 @@ patches() {
     sed -i '' 's|^INCFLAGS_SDK	= -I$(SDKROOT)|INCFLAGS_SDK	= -I$(FAKEROOT_DIR)|g' ${WORK_DIR}/xnu/makedefs/MakeInc.def
     # Don't apply patches when building CodeQL database to keep code pure
     if [ "$CODEQL" -eq "0" ]; then
-        git apply --directory='xnu' patches/*.patch || true
+        XNU_MAJOR_VERSION=$(curl -s $RELEASE_URL | jq -r '.projects[] | select(.project=="xnu") | .tag' | cut -d'.' -f1)
+        echo "Applying patches for ${XNU_MAJOR_VERSION}"
+        git apply --directory='xnu' patches/${XNU_MAJOR_VERSION}/*.patch || true
     fi
 }
 
