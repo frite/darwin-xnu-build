@@ -23,7 +23,7 @@ jobs:
       - name: Deps
         run: |
           brew update
-          brew install bash
+          brew install bash xcodes
 
       - name: Update XCode
         run: |
