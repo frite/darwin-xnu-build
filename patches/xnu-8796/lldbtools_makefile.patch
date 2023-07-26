@@ -1,0 +1,13 @@
+diff --git a/tools/lldbmacros/Makefile b/tools/lldbmacros/Makefile
+index 68320796..7b2b0b37 100644
+--- a/tools/lldbmacros/Makefile
++++ b/tools/lldbmacros/Makefile
+@@ -31,7 +31,7 @@ LLDBMACROS_USERDEBUG_FILES:= \
+ LLDBMACROS_PYTHON_FILES = $(LLDBMACROS_USERDEBUG_FILES) \
+ 	core/__init__.py \
+ 	core/caching.py \
+-	core/collections.py \
++	core/collection.py \
+ 	core/compat.py \
+ 	core/configuration.py \
+ 	core/cvalue.py \
