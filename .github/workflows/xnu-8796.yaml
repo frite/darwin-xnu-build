@@ -40,11 +40,11 @@ jobs:
       - name: Build XNU JSON compilation database
         if: steps.cache-jsondb.outputs.cache-hit != 'true'
         run: |
-          MV_CORE_COLLECTIONS=1 MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=T6000 JSONDB=1 bash -x build.sh
+          MV_CORE_COLLECTIONS=0 MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=T6000 JSONDB=1 bash -x build.sh
 
       - name: Build XNU
         run: |
-          MV_CORE_COLLECTIONS=1 MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=T6000 KC_FILTER='com.apple.driver.SEPHibernation|com.apple.iokit.IOACPIFamily' bash -x build.sh --kc
+          MV_CORE_COLLECTIONS=0 MACOS_VERSION='${{ matrix.macos-version }}' MACHINE_CONFIG=T6000 KC_FILTER='com.apple.driver.SEPHibernation|com.apple.iokit.IOACPIFamily' bash -x build.sh --kc
           ipsw macho info fakeroot/oss-xnu.macOS.${{ matrix.macos-version }}.*.kc
 
       - uses: actions/upload-artifact@v3
