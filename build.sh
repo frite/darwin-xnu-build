@@ -40,6 +40,7 @@ function error() {
 : ${CODEQL:=0}
 : ${BUILDKC:=0}
 : ${KC_FILTER:='com.apple.driver.SEPHibernation'}
+: ${MV_CORE_COLLECTIONS:=1}
 
 WORK_DIR="$PWD"
 CACHE_DIR=${WORK_DIR}/.cache
@@ -130,7 +131,7 @@ install_ipsw() {
 choose_xnu() {
     if [ -z "$MACOS_VERSION"]; then
         gum style --border normal --margin "1" --padding "1 2" --border-foreground 212 "Choose $(gum style --foreground 212 'macOS') version to build:"
-        MACOS_VERSION=$(gum choose "13.0" "13.1" "13.2")
+        MACOS_VERSION=$(gum choose "13.0" "13.1" "13.2" "13.3")
     fi
     case ${MACOS_VERSION} in
     '13.0')
@@ -147,6 +148,11 @@ choose_xnu() {
         RELEASE_URL='https://raw.githubusercontent.com/apple-oss-distributions/distribution-macOS/macos-132/release.json'
         KDK_NAME='Kernel Debug Kit 13.2 build 22D49'
         KDKROOT='/Library/Developer/KDKs/KDK_13.2_22D49.kdk'
+        ;;
+    '13.3')
+        RELEASE_URL='https://raw.githubusercontent.com/apple-oss-distributions/distribution-macOS/macos-133/release.json'
+        KDK_NAME='Kernel Debug Kit 13.3 build 22E252'
+        KDKROOT='/Library/Developer/KDKs/KDK_13.3_22E252.kdk'
         ;;
     *)
         error "Invalid xnu version"
@@ -205,8 +211,18 @@ patches() {
     sed -i '' 's|^INCFLAGS_SDK	= -I$(SDKROOT)|INCFLAGS_SDK	= -I$(FAKEROOT_DIR)|g' ${WORK_DIR}/xnu/makedefs/MakeInc.def
     # Don't apply patches when building CodeQL database to keep code pure
     if [ "$CODEQL" -eq "0" ]; then
-        git apply --directory='xnu' patches/*.patch || true
+        XNU_MAJOR_VERSION=$(curl -s $RELEASE_URL | jq -r '.projects[] | select(.project=="xnu") | .tag' | cut -d'.' -f1)
+        echo "Applying patches for ${XNU_MAJOR_VERSION}"
+        git apply --directory='xnu' patches/${XNU_MAJOR_VERSION}/*.patch || true
+    else
+        info "Skipping patching XNU"
     fi
+
+    if [ "$MV_CORE_COLLECTIONS" -eq "0" ]; then
+        running "🩹 Moving lldbmacros files"
+        mv xnu/tools/lldbmacros/core/collections.py xnu/tools/lldbmacros/core/collection.py || true
+    fi
+
 }
 
 build_dtrace() {

@@ -1,0 +1,26 @@
+diff --git a/tools/lldbmacros/Makefile b/tools/lldbmacros/Makefile
+index 68320796..adc06cfc 100644
+--- a/tools/lldbmacros/Makefile
++++ b/tools/lldbmacros/Makefile
+@@ -29,12 +29,11 @@ LLDBMACROS_USERDEBUG_FILES:= \
+ 	usertaskdebugging/userprocess.py
+
+ LLDBMACROS_PYTHON_FILES = $(LLDBMACROS_USERDEBUG_FILES) \
+-	core/__init__.py \
+ 	core/caching.py \
+ 	core/collections.py \
++	core/cvalue.py \
+ 	core/compat.py \
+ 	core/configuration.py \
+-	core/cvalue.py \
+ 	core/io.py \
+ 	core/kernelcore.py \
+ 	core/lazytarget.py \
+@@ -43,6 +42,7 @@ LLDBMACROS_PYTHON_FILES = $(LLDBMACROS_USERDEBUG_FILES) \
+ 	core/pointer.py \
+ 	core/standard.py \
+ 	core/xnu_lldb_init.py \
++	core/__init__.py \
+ 	kmemory/__init__.py \
+ 	kmemory/btlog.py \
+ 	kmemory/kmem.py \
