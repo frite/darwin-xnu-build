@@ -105,7 +105,7 @@ install_deps() {
                 exit 1
             fi
         fi
-        brew install jq gum xcodes bash python@3.11
+        brew install jq gum xcodes bash
     fi
     if compgen -G "/Applications/Xcode*.app" >/dev/null; then
         info "Xcode is already installed: $(xcode-select -p)"
