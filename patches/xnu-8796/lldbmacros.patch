@@ -1,0 +1,36 @@
+diff --git a/tools/lldbmacros/core/__init__.py b/tools/lldbmacros/core/__init__.py
+index fd06bd85..78a2374c 100755
+--- a/tools/lldbmacros/core/__init__.py
++++ b/tools/lldbmacros/core/__init__.py
+@@ -7,4 +7,4 @@ from future.utils import PY2, PY3
+ from .cvalue import value, gettype, getfieldoffset
+ from .compat import valueint as int
+ from .standard import xnu_format, xnu_vformat, SBValueFormatter
+-from .collections import *
++from .collection import *
+diff --git a/tools/lldbmacros/core/kernelcore.py b/tools/lldbmacros/core/kernelcore.py
+index 8b21494b..980a62fe 100755
+--- a/tools/lldbmacros/core/kernelcore.py
++++ b/tools/lldbmacros/core/kernelcore.py
+@@ -9,7 +9,7 @@ from builtins import object
+ 
+ from .cvalue import value
+ from .compat import valueint as int
+-from . import collections as ccol
++from . import collection as ccol
+ from .caching import (
+     LazyTarget,
+     dyn_cached_property,
+diff --git a/tools/lldbmacros/kmemory/vm.py b/tools/lldbmacros/kmemory/vm.py
+index 684ae184..b37ec747 100755
+--- a/tools/lldbmacros/kmemory/vm.py
++++ b/tools/lldbmacros/kmemory/vm.py
+@@ -11,7 +11,7 @@ from core import (
+     xnu_format,
+     SBValueFormatter,
+ )
+-from core.collections import (
++from core.collection import (
+     RB_HEAD,
+ )
+ 

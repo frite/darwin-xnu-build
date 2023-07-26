@@ -40,6 +40,7 @@ function error() {
 : ${CODEQL:=0}
 : ${BUILDKC:=0}
 : ${KC_FILTER:='com.apple.driver.SEPHibernation'}
+: ${MV_CORE_COLLECTIONS:=1}
 
 WORK_DIR="$PWD"
 CACHE_DIR=${WORK_DIR}/.cache
@@ -216,6 +217,12 @@ patches() {
     else
         info "Skipping patching XNU"
     fi
+
+    if [ "$MV_CORE_COLLECTIONS" -eq "0" ]; then
+        running "🩹 Moving lldbmacros files"
+        mv xnu/tools/lldbmacros/core/collections.py xnu/tools/lldbmacros/core/collection.py || true
+    fi
+
 }
 
 build_dtrace() {
